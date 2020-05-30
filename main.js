@@ -23,7 +23,104 @@ const mystery5 = [4, 9, 1, 3, 5, 4, 0, 4, 6, 3, 0, 7, 2, 5, 2, 3]
 const batch = [valid1, valid2, valid3, valid4, valid5, invalid1, invalid2, invalid3, invalid4, invalid5, mystery1, mystery2, mystery3, mystery4, mystery5]
 
 
+
 // Add your functions below:
+//const invalidCards=[];
+const validateCred = array => {
+  let sum=0;
+  let flag = true;
+  for(let i= array.length-1;i>=0;i--){
+    if(flag){
+      //console.log(array[i] +' ');
+      sum  = sum + array[i];
+      flag = false;
+        }
+        else {
+          let val1  = array[i]*2;  
+          if( val1 > 9)
+          {
+            //console.log((val1-9) +' ');
+          sum  = sum + (val1) - 9;
+          }
+          else
+          {
+            //console.log(array[i] +' ');
+            sum=sum+ val1;
+          }
+          flag = true;;
+        }
+  }
+  //console.log(`sum=${sum}`);
+  return (sum%10 === 0);
+
+};
+//console.log(validateCred(valid1));
+
+
+
+
+//find Invalid cards
+
+const findInvalidCards = array => {
+const invalidCards=[];
+for(let i=0 ;i < array.length ; i++){
+  let value = validateCred(array[i]);
+  if(value === false){
+    invalidCards.push(array[i]);
+  }
+}
+return invalidCards;
+};
+//console.log(findInvalidCards(batch));
+
+
+//idInvalidCardCompanies  ia a higher-order function which takes findInvaidCars function ,batch as parameters
+
+const idInvalidCardCompanies = (funcFindInvalidCards, arryBatch) => {
+  let arrayOfCompanies= [];
+  const array = funcFindInvalidCards(arryBatch);
+  for(i=0;i<array.length;i++){
+    let firstNumber = array[i][0];
+    switch(firstNumber) {
+      case 3:
+      if(arrayOfCompanies.indexOf('Amex(American Express)')<0){
+        arrayOfCompanies.push('Amex(American Express)');
+        }
+        break;  
+        case 4:
+        if(arrayOfCompanies.indexOf('Visa') < 0){
+        arrayOfCompanies.push('Visa');
+        }
+        break;
+        case 5:
+        if(arrayOfCompanies.indexOf('Mastercard') < 0) {
+        arrayOfCompanies.push('Mastercard');
+         }
+        break;
+        case 6:
+        if(arrayOfCompanies.indexOf('Discover') < 0){
+        arrayOfCompanies.push('Discover');
+         }
+        break;     
+        default:
+        console.log("Company Not Found")
+        break;                   
+    }
+  }
+  return arrayOfCompanies;
+};
+
+
+const produceArray = stringArray => {
+  return parseInt(stringArray);
+};
+
+//console.log(validateCred(valid1));
+//findInvalidCards(batch);
+
+
+console.log(idInvalidCardCompanies(findInvalidCards, batch));
+// gives the companynames of invaidcards
 
 
 
